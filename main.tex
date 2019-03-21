@@ -1,6 +1,11 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
-\usepackage[a4paper, total={6in, 8in}]{geometry}
+\usepackage[a4paper, total={6in, 9in}]{geometry}
+
+\usepackage{amsthm}
+ 
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
 
 \title{
     CS638 Chapter: \\
@@ -45,6 +50,23 @@
 
 \subsubsection{Conclusion:}
 
+\subsection{}
+\subsubsection{Objective:}
+
+\subsubsection{Settings and Assumptions:}
+
+\subsubsection{Content and Analysis:}
+
+\subsubsection{Conclusion:}
+
+\subsection{}
+\subsubsection{Objective:}
+
+\subsubsection{Settings and Assumptions:}
+
+\subsubsection{Content and Analysis:}
+
+\subsubsection{Conclusion:}
 
 
 % ----------------------------------------------------------------
@@ -65,7 +87,26 @@ However, we assume that door transition occur in synchronisation with robot tran
     \item \textbf{Setting 3:}
         Here both assumptions are removed. However, another assumption is made i.e. success and failure rates of door observation are known and fixed (given in the form of probabilities).
 \end{enumerate}
+\subsubsection{Preliminaries:}
+\theoremstyle{definition}
+\begin{definition}{Markov Decision Process (MDP)} $\mathcal{M}$ is a tuple (S,$s_0$,Act,T,L), where S is a finite set of states, $s_0 \in$S is the start state, Act is finite set of actions, T:S\times Act\times S $\rightarrow$ [0,1] is transition probability function, L:S$\rightarrow 2^{AP}$ is the labelling function assigned to each s in S.
+\end{definition}
+\begin{definition}{Probabilistic Computation Tree Logic (PCTL)}\\
+We will be only dealing with PCTL of form $P_{max=?}[\phi_1 \mathcal{U} \phi_2]$ which is the maximum probability for which there exists a policy $\pi$ such that the formula "$\phi_1$ until $\phi_2$" is satisfied.
+\end{definition}
+\begin{definition}{Mixed Observability Markov Decision Process (MOMDP)} \cite{sahil1}
+is a tuple (S,$s_0$,X,$\Theta$,Act,T,O,L), where S is the set of fully observable states, $s_0$ is the initial fully observable state, X is the set of hidden states, $\Theta$ is finite set of observations, Act is a finite set of actions, T(s,x,$\alpha$,$s^'$) = P($s^{'}\mid$s,x,$\alpha$) is probability of making a transition to fully observable state $s^'$ if action $\alpha$ is applied in state s and hidden state is x, O($s^'$,$x^'$,$\alpha$,o) = P(o$\mid s^{'}$,$x^'$,$\alpha$) describe the probability of observing o from state s when hidden state is x after action $\alpha$, and L:S$\rightarrow 2^{AP}$ is the labelling function.
+\end{definition}
+
 \subsubsection{Content and Analysis:}
+\begin{enumerate}
+    \item \textbf{Setting 1:}\\
+    \textbf{MDP Model construction:} \\
+    
+    \textbf{PCTL Control Synthesis:}\\
+    Once the MDP is contructed, problem is solved by tool developed in \cite{jatin1}. Inputs are an MDP and a PCTL specification and output will be policy and maximum probability.
+\end{enumerate}
+
 
 \subsubsection{Conclusion:}
 
