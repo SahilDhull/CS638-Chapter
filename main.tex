@@ -1,0 +1,175 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper, total={6in, 8in}]{geometry}
+
+\title{
+    CS638 Chapter: \\
+    Motion Planning with Probabilistic Guarantee
+}
+\author{
+    Jatin Jindal, 160308\\
+    \texttt{jatinj@iitk.ac.in}
+    \and
+    Sahil Dhull, 160607\\
+    \texttt{sahild@iitk.ac.in}
+    \and
+    Vibhor Porwal, 160778\\
+    \texttt{vibhorp@iitk.ac.in}
+}
+\date{March 2019}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+\textbf{**Section names are temporary}
+
+% ----------------------------------------------------------------
+\section{Jatin's Part:}
+\subsection{Motion planning and control from temporal logic specifications with probabilistic satisfaction guarantees}
+\subsubsection{Objective:}
+
+\subsubsection{Settings and Assumptions:}
+
+\subsubsection{Content and Analysis:}
+
+\subsubsection{Conclusion:}
+
+\subsection{Negotiating the probabilistic satisfaction of temporal logic motion specifications}
+\subsubsection{Objective:}
+
+\subsubsection{Settings and Assumptions:}
+
+\subsubsection{Content and Analysis:}
+
+\subsubsection{Conclusion:}
+
+
+
+% ----------------------------------------------------------------
+\section{Sahil's Part:}
+\subsection{Temporal logic control in dynamic environments with probabilistic satisfaction guarantees}
+\subsubsection{Objective:}
+To find a control strategy that maximizes the
+probability of satisfying a specification given in Probabilistic
+Computation Tree Logic (PCTL) under 3 different settings.
+\subsubsection{Settings and Assumptions:}
+The environment is dynamic, with a set of disjoint regions and some of them separated from each other by doors. Doors can opened or closed.
+However, we assume that door transition occur in synchronisation with robot transitions.
+\begin{enumerate}
+    \item \textbf{Setting 1:}
+        Assumption is that when a robot observes a door, it knows perfectly well if it is opened or closed. Moreover, robot knows a priori on the probability that each door is open or closed.
+    \item \textbf{Setting 2:}
+        Here the assumption on priori probability is removed. But 100\% sensing accuracy is still assumed.
+    \item \textbf{Setting 3:}
+        Here both assumptions are removed. However, another assumption is made i.e. success and failure rates of door observation are known and fixed (given in the form of probabilities).
+\end{enumerate}
+\subsubsection{Content and Analysis:}
+
+\subsubsection{Conclusion:}
+
+One of the key limitations of the proposed approaches is the assumption that the doors only change state in synchrony with the motion of the robot.
+
+%       -------------------------------- 
+\subsection{Probabilistic control from time-bounded temporal logic specifications in dynamic environments}
+\subsubsection{Objective:}
+
+\subsubsection{Settings and Assumptions:}
+
+\subsubsection{Content and Analysis:}
+
+\subsubsection{Conclusion:}
+
+
+\\
+%       -------------------------------- 
+\subsection{Time-Bounded Reachability Probabilities in Continuous-Time Markov Decision Processes}
+\subsubsection{Objective:}
+
+\subsubsection{Settings and Assumptions:}
+
+\subsubsection{Content and Analysis:}
+
+\subsubsection{Conclusion:}
+
+\\
+%       -------------------------------- 
+\subsection{Efficient
+computation of time-bounded reachability probabilities in uniform
+continuous-time Markov decision processes}
+\subsubsection{Objective:}
+
+\subsubsection{Settings and Assumptions:}
+
+\subsubsection{Content and Analysis:}
+
+\subsubsection{Conclusion:}
+
+
+% ----------------------------------------------------------------
+\section{Vibhor's Part:}
+\subsection{ Incremental control synthesis in probabilistic environments with Temporal Logic constraints}
+\subsubsection{Objective:}
+
+\subsubsection{Settings and Assumptions:}
+
+\subsubsection{Content and Analysis:}
+
+\subsubsection{Conclusion:}
+
+
+
+%  ---------------------------------------------------------------
+
+\begin{thebibliography}{}
+\bibitem{jatin1}
+Morteza Lahijanian, Joseph Wasniewski, Sean B. Andersson, Calin Belta.
+\texttt{"Motion planning and control from temporal logic specifications with probabilistic satisfaction guarantees"}
+ICRA 2010: 3227-3232
+\bibitem{jatin2}
+Igor Cizelj, Calin Belta
+\texttt{"Negotiating the probabilistic satisfaction of temporal logic motion specifications"}
+IROS 2013: 4320-4325
+\bibitem{jatin3}
+
+\texttt{""}
+
+\bibitem{jatin4}
+
+\texttt{""}
+
+
+% --------------------------------------------------------
+\bibitem{sahil1}
+I. Medina Ayala, Sean B. Andersson, Calin Belta.
+\texttt{"Temporal logic control in dynamic environments with probabilistic satisfaction guarantees"}
+IROS 2011: 3108-3113
+\bibitem{sahil2}
+I. Medina Ayala, Sean B. Andersson, Calin Belta.
+\texttt{"Probabilistic control from time-bounded temporal logic specifications in dynamic environments"}
+ICRA 2012: 4705-4710
+\bibitem{sahil3}
+M. R. NeuhauBer and L. Zhang.
+\texttt{"Time-bounded reachability probabilities
+in continuous-time Markov decision processes"}
+In Quantitative Evaluation of Systems (QEST), IEEE CS Press, pp. 209–218, 2010.
+\bibitem{sahil4}
+C. Baier, H. Hermanns, J.-P. Katoen, and B. R. Haverkort.
+\texttt{"Efficient computation of time-bounded reachability probabilities in uniform continuous-time Markov decision processes"}
+Theor. Comp. Sci., vol. 345, no. 1, pp. 2–26, 2005.
+% --------------------------------------------------------
+\bibitem{vibhor1}
+Alphan Ulusoy, Tichakorn Wongpiromsarn, Calin Belta.
+\texttt{"Incremental control synthesis in probabilistic environments with Temporal Logic constraints"}
+
+\bibitem{vibhor2}
+\texttt{""}
+
+\bibitem{vibhor3}
+\texttt{""}
+
+
+\end{thebibliography}
+
+\end{document}
