@@ -1,7 +1,9 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage[a4paper, total={6in, 9in}]{geometry}
-
+\usepackage[options ]{algorithm2e}
+\usepackage{algorithm}
+\usepackage{algorithmic}
 \usepackage{amsthm}
  
 \theoremstyle{definition}
@@ -33,8 +35,7 @@
 % ----------------------------------------------------------------
 \section{Jatin's Part:}
 \subsection{Motion planning and control from temporal logic specifications with probabilistic satisfaction guarantees}
-\subsubsection{Objective:}
-
+\subsubsection{Objective:} 
 \subsubsection{Settings and Assumptions:}
 
 \subsubsection{Content and Analysis:}
@@ -42,15 +43,19 @@
 \subsubsection{Conclusion:}
 
 \subsection{Negotiating the probabilistic satisfaction of temporal logic motion specifications}
-\subsubsection{Objective:}
+\subsubsection{Objective:} Given the motion specification of a robot in the form of PCTL(probabilistic computation tree logic) formula, the aim is to generate MDP control policies for different kind of PCTL formulas.
 
-\subsubsection{Settings and Assumptions:}
+
+\subsubsection{Settings and Assumptions:} We consider a robot that moves in a partitioned environment by applying a given set of motion primitives allowing it to steer between
+adjacent regions. Because of sensor and actuation noise, while applying an available motion primitive at a region, the robot can transit to more than one adjacent region. We assume that the probabilities of these transitions are known and the robot can determine its current region precisely.
 
 \subsubsection{Content and Analysis:}
 
-\subsubsection{Conclusion:}
+\subsubsection{Conclusion: } In this paper, we complete the effort that was started in [1]
+and [2] and present the entire MDP control synthesis algorithm from PCTL formulas that include Boolean operators, tempo-ral operators, expected cost operators, and any combinations
+thereof. We can also accommodate nested probabilities,
 
-\subsection{}
+\subsection{Temporal Logic Motion Planning and Control With Probabilistic Satisfaction Guarantees}
 \subsubsection{Objective:}
 
 \subsubsection{Settings and Assumptions:}
@@ -95,22 +100,82 @@ However, we assume that door transition occur in synchronisation with robot tran
 We will be only dealing with PCTL of form $P_{max=?}[\phi_1 \mathcal{U} \phi_2]$ which is the maximum probability for which there exists a policy $\pi$ such that the formula "$\phi_1$ until $\phi_2$" is satisfied.
 \end{definition}
 \begin{definition}{Mixed Observability Markov Decision Process (MOMDP)} \cite{sahil1}
-is a tuple (S,$s_0$,X,$\Theta$,Act,T,O,L), where S is the set of fully observable states, $s_0$ is the initial fully observable state, X is the set of hidden states, $\Theta$ is finite set of observations, Act is a finite set of actions, T(s,x,$\alpha$,$s^'$) = P($s^{'}\mid$s,x,$\alpha$) is probability of making a transition to fully observable state $s^'$ if action $\alpha$ is applied in state s and hidden state is x, O($s^'$,$x^'$,$\alpha$,o) = P(o$\mid s^{'}$,$x^'$,$\alpha$) describe the probability of observing o from state s when hidden state is x after action $\alpha$, and L:S$\rightarrow 2^{AP}$ is the labelling function.
+is a tuple (S,$s_0$,X,$\Theta$,Act,T,O,L), where S is the set of fully observable states, $s_0$ is the initial fully observable state, X is the set of hidden states, $\Theta$ is finite set of observations, Act is a finite set of actions, T(s,x,$\alpha$,$s^{'}$) = P($s^{'}\mid$s,x,$\alpha$) is probability of making a transition to fully observable state $s^{'}$ if action $\alpha$ is applied in state s and hidden state is x, O($s^{'}$,$x^{'}$,$\alpha$,o) = P(o$\mid s^{'}$,$x^{'}$,$\alpha$) describe the probability of observing o from state s when hidden state is x after action $\alpha$, and L:S$\rightarrow 2^{AP}$ is the labelling function.
 \end{definition}
 
 \subsubsection{Content and Analysis:}
 \begin{enumerate}
-    \item \textbf{Setting 1:}\\
-    \textbf{MDP Model construction:} \\
-    
-    \textbf{PCTL Control Synthesis:}\\
-    Once the MDP is contructed, problem is solved by tool developed in \cite{jatin1}. Inputs are an MDP and a PCTL specification and output will be policy and maximum probability.
+    \item \textbf{Setting 1:}
+    \begin{itemize}
+        \item MDP Model construction: \\
+        $\mathcal{M}$ = (S,$s_0$,Act,T,L).\\
+        S is the set of all regions.\\
+        S = $R_1\cup \bigcup_{r\in R_2} \{(r,0),(r,1)\}$ where $R_1$ is the regions having no door and $R_2$ is set of regions having door.\\
+        Act is set of actions which are motion primitives available at each region/state.\\
+        Assumption: Transition Probability is only dependant on current region.\\
+        Hence T(s,$\alpha$,$s^{'}$) = P($s^{'}\mid$s,$\alpha$).\\
+        L is the labelling function assigning properties to various regions, which are used in PCTL specification formation.
+        \item PCTL Control Synthesis:\\
+        Once the MDP is contructed, problem is solved by tool developed in \cite{jatin1} as discussed in section 2.1. Inputs are an MDP and a PCTL specification and output will be policy and maximum probability.
+    \end{itemize}
+    \item \textbf{Setting 2:}
+    \begin{itemize}
+        \item MOMDP Model construction:
+        Tuple (S,$s_0$,X,$\Theta$,Act,T,O,L)\\
+        S = R (set of regions)\\
+        X = $\bigcup_{b_i\in B} b_i$ where is $b_i$ is boolean denoting state of each door i.e. $b_i$ = 1 means door is closed and $b_i$ = 0 means door is open.\\
+        $\Theta$ = $\{ open, closed \}$ denoting states of door.\\
+        Act is the set of primitives available at the state/region.\\
+        T(s,x,$\alpha$,$s^{'}$) = P($s^{'}\mid$s,$\alpha$) for the regions without door.\\
+        For the regions with door,
+        \[ T(s,x,\alpha,s^{'}) = \sum_{s\in S} P(s^{'}\mid s,\alpha) P(o \mid s^{'},x^{'},\alpha) \]
+        Since we have perfect sensing, $P(o \mid s^{'},x^{'},\alpha)$ = 1 if o is open and 0 if o is closed.\\
+        O($o, s^{'},x^{'},\alpha$) = $P(o \mid s^{'},x^{'},\alpha)$ = 0 or 1\\
+        L is the labelling function assigning properties to various regions over which PCTL specification is defined.
+        \item PCTL Control Synthesis:\\
+        We only know the state of current door, so we assume all other doors are open. This leaves us with n+1 configurations, where n is the number of doors. For each configuration, MDP is constructed, and optimal policy is obtained. Let $\Pi$ denote set of policies for all configurations/scenarios with $pi_0$ being scenario in which all doors are open.\\
+        We partition S into $S^{yes}$ (states satisfying PCTL formula with probability 1), $S^{no}$ (states satisfying PCTL formula with probability 0) and $S^{?}$ (remaining states).\\
+        Now while running, robot chooses the policy dynamically from $\Pi$ based on its current configuration (e.g. if it enters a region containing door and door is closed, it will choose corresponding $\pi_i$), applies that policy to obtain new state, until the state is in either $S^{yes}$ or $S^{no}$. The algorithm is given below with line 10 removed (line 10 is for setting 3).\\
+    \end{itemize}
+    \item \textbf{Setting 3:}
+    \begin{itemize}
+        \item MOMDP Model construction:\\
+        Here, uncertainity in robot's sensor is also considered.
+        Only the transition probabilities for the regions containing a door change as per the following equation,
+        \[ T(s,x,\alpha,s^{'}) = \sum_{s\in S} P(s^{'}\mid s,\alpha) P(o \mid s^{'},x^{'},\alpha) \]
+        Now, $P(o \mid s^{'},x^{'},\alpha)$ will not be directly 0 or 1 depending on state of door, but we also incorporate some error/inaccuracy.
+        \item PCTL Control Synthesis:\\
+        $\Pi$ is calculated offline similar to last setting. When a region having a door is encountered, robot can either keep applying same policy or execute a new policy. The policy selected corresponds to the scenario that is most likely based on observation and given by following one-step lookahead,
+        \[ p_s = \max_{\pi\in\Pi} \{ \sum_{s^{'}\in S^{?}} T(s,x,\pi,s^{'})\cdot p_{s^{'}}  + \sum_{s^{'}\in S^{yes}} T(s,x,\pi,s^{'})  \} \ \ \ --> SOLVE  \]
+        \begin{algorithm}
+        \caption{Setting 2 and 3 Online Algorithm \cite{sahil1}}\label{euclid}
+        \begin{algorithmic}[1]
+        \REQUIRE Set $\Pi$ = $\{ \pi_0,\pi_1,...,\pi_N \}$
+        \STATE $\pi_*$ = $\pi_0$
+        \STATE Act(s) $\leftarrow$ $\pi_*$(s)
+        \STATE $s^{'}$ = execute Act(s)
+        \STATE s = $s^{'}$
+        \WHILE{True}
+        \IF{s$\in S^{yes} \vee s \in S^{no}$}
+        \STATE \textbf{break}
+        \ELSE
+        \IF{P(closed$\mid s^{'},b_i$,Act(s))=1}
+        \STATE $\pi_i$ = \texttt{SOLVE}
+        \STATE $\pi_*$ = $\pi_i$
+        \ENDIF
+        \STATE \textbf{goto} 2
+        \ENDIF
+        \ENDWHILE
+        \end{algorithmic}
+        \end{algorithm}
+    \end{itemize}
 \end{enumerate}
 
 
 \subsubsection{Conclusion:}
-
-One of the key limitations of the proposed approaches is the assumption that the doors only change state in synchrony with the motion of the robot.
+Simulations have been performed by the researchers in the paper \cite{sahil1} and the results are similar to expectations in all the 3 settings.\\
+Hence a solution to automatic deployment of robot in dynamic environment, provided a temporal logic specification to be satisfied, is presented in the paper assuming different levels of knowledge.\\
+However, one of the key limitations of the proposed approaches is the assumption that the doors only change state in synchrony with the motion of the robot.
 
 %       -------------------------------- 
 \subsection{Probabilistic control from time-bounded temporal logic specifications in dynamic environments}
