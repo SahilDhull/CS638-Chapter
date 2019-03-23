@@ -5,7 +5,7 @@
 \usepackage{algorithm}
 \usepackage{algorithmic}
 \usepackage{amsthm}
- 
+ \usepackage{amssymb}
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}[section]
 
@@ -80,7 +80,7 @@ thereof. We can also accommodate nested probabilities,
 \subsubsection{Objective:}
 To find a control strategy that maximizes the
 probability of satisfying a specification given in Probabilistic
-Computation Tree Logic (PCTL) under 3 different settings.
+Computation Tree Logic (PCTL) under 3 different settings in a dynamic environment.
 \subsubsection{Settings and Assumptions:}
 The environment is dynamic, with a set of disjoint regions and some of them separated from each other by doors. Doors can opened or closed.
 However, we assume that door transition occur in synchronisation with robot transitions.
@@ -94,7 +94,30 @@ However, we assume that door transition occur in synchronisation with robot tran
 \end{enumerate}
 \subsubsection{Preliminaries:}
 \theoremstyle{definition}
-\begin{definition}{Markov Decision Process (MDP)} $\mathcal{M}$ is a tuple (S,$s_0$,Act,T,L), where S is a finite set of states, $s_0 \in$S is the start state, Act is finite set of actions, T:S\times Act\times S $\rightarrow$ [0,1] is transition probability function, L:S$\rightarrow 2^{AP}$ is the labelling function assigned to each s in S.
+\begin{definition}{Markov Decision Process (MDP)} $\mathcal{M}$ is a tuple (S,$s_0$,Act,T,$\Pi$,L,c), where S is a finite set of states, $s_0 \in$S is the start state, Act is finite set of actions, $T:S\times Act\times$ S $\rightarrow$ [0,1] is transition probability function, $\Pi$ is a finite set of atomic propositions, L:S$\rightarrow 2^{\Pi}$ is the labelling function assigned to each s in S, Cost(c): $S \times Act \rightarrow \mathbb{R}^{\geq 0}$
+\end{definition}
+
+\begin{definition}{Syntax of PCTL:}\\
+$\phi ::= true\:\: |\:\: \pi \:\:|\:\: \neg \phi \:\:|\:\: \phi \wedge \phi \:\:|\:\: P_{\Join p}[\psi] \:\:|\:\: \varepsilon_{\Join c}[\phi]$ \hfill state formulas\\
+$\psi ::= X\phi \:\: |\:\: \phi\: \mathcal{U}^{\le k}\phi \:\: | \:\: \phi\: \mathcal{U} \phi $ \hfill path formulas\\
+
+$\Join \in \{\le, <, \geq, >\}; p \in [0, 1], c \in [0, \infty]$ and $k \in \mathbb{N}$
+\end{definition}
+
+
+\begin{definition}{Semantics of PCTL:}
+For any state $s \in S$, the satisfaction relation $\models$ is defined inductively as follows:\\
+(1) s $\models$ true for all $s \in S$;\\
+(2) s $\models \pi \Leftrightarrow \pi \in L(q)$;\\
+(3) s $\models (\phi_1 \wedge \phi_2) \Leftrightarrow s \models \phi_1 \wedge s \models \phi_2$;\\
+(4) $s \models \neg \phi \Leftrightarrow s \not \models \phi$;\\
+(5) $s \models P_{\Join p}[\psi] \Leftrightarrow p_\mu^s \Join p;$\\
+(6) $s \models \varepsilon_{\Join c}[\phi] \Leftrightarrow e_\mu^s \Join c;$\\
+
+$p_\mu^s$ is the probability of all the infinite paths that start from s and satisfy $\psi$ under policy $\mu$ and $e_\mu^s(\phi)$ denotes the total expected cost of reaching a state that satisfy $\phi$ from s under $\mu$. Moreover, for any path $\omega \in $Path.\\
+(1) $\omega \models X \phi \Leftrightarrow w(1) \Leftrightarrow \phi$\\
+(2) $\omega \models \phi_1 \mathcal{U}^{\le k} \phi_2 \Leftrightarrow \exists i \le k, \omega(i) \models \phi_2 \wedge w(j) \models \phi_1 \forall j < i$;\\
+(3) $\omega \models \phi_1 \mathcal{U} \phi_2 \Leftrightarrow \exists \ge 0, \omega \models \phi_1 \mathcal{U}^{\le k} \phi_2$
 \end{definition}
 \begin{definition}{Probabilistic Computation Tree Logic (PCTL)}\\
 We will be only dealing with PCTL of form $P_{max=?}[\phi_1 \mathcal{U} \phi_2]$ which is the maximum probability for which there exists a policy $\pi$ such that the formula "$\phi_1$ until $\phi_2$" is satisfied.
@@ -178,10 +201,15 @@ Hence a solution to automatic deployment of robot in dynamic environment, provid
 However, one of the key limitations of the proposed approaches is the assumption that the doors only change state in synchrony with the motion of the robot.
 
 %       -------------------------------- 
-\subsection{Probabilistic control from time-bounded temporal logic specifications in dynamic environments}
+\subsection{Probabilistic Control from Time-bounded Temporal Logic Specifications in Dynamic Environments}
 \subsubsection{Objective:}
+To find a control strategy for real time robotic system that satisfies Continuous Stochastic Logic (CSL) temporal logic specification, in a dynamic environment within a given time bound.
 
 \subsubsection{Settings and Assumptions:}
+We assume that robot can determine its current region accurately and motion primitives, that it is programmed with, allow it to move from one region to another provided the path is not blocked by closed door. Moreover, robot knows about state of door only when it is in a region adjacent to door.\\
+And to account for noisy actuators, it is taken into account that if robot is to move to a region, it may actually move to some other adjacent region.\\
+Change in state of door is assumed to follow poisson distribution, so the time between 2 subsequent switching events are exponential random variables.
+
 
 \subsubsection{Content and Analysis:}
 
